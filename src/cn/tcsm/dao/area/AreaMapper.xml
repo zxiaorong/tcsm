@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.area.AreaMapper">
+	<select id="getArea" parameterType="Area" resultType="Area">
+		select id,area_name 'areaName',update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime'
+	    from area
+		where is_delete=0
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="areaName!=null and areaName!=''">
+			and area_name=#{areaName}
+		</if>
+	</select>
+</mapper>

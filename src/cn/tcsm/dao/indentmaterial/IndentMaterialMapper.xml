@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.indentmaterial.IndentMaterialMapper">
+<insert id="insert" parameterType="IndentMaterial">
+	insert into indentmaterial(indent_id,mat_id,mat_num,insert_user,insert_time)
+	values(#{indentId},#{matId},#{matNum},#{insertUser},CURRENT_TIMESTAMP)
+</insert>
+<update id="deleteById">
+	update indentmaterial set is_delete=1 where id=#{id}
+</update>
+<update id="updateById" parameterType="IndentMaterial">
+	update indentmaterial 
+	<set>
+		<if test="indentId!=null">
+			indent_id=#{indentId},
+		</if>
+		<if test="matId!=null">
+			mat_id=#{matId},
+		</if>
+		<if test="matNum!=0.00">
+			mat_num=#{matNum},
+		</if>
+		<if test="updateUser!=null and updateUser=''">
+			update_user=#{updateUser},
+		</if>
+		<if test="1==1">
+			update_time=CURRENT_TIMESTAMP
+		</if>
+	</set>
+	where id=#{id} and is_delete=0
+</update>
+<select id="getIndentMaterial" parameterType="IndentMaterial" resultType="IndentMaterial">
+	select id,indent_id 'indentId',mat_id 'matId',mat_num 'matNum',update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime'
+	from indentmaterial
+	where is_delete=0
+	<if test="id!=null">
+		and id=#{id}
+	</if>
+	<if test="indentId!=null">
+		and indent_id=#{indentId}
+		</if>
+	<if test="matId!=null">
+		and mat_id=#{matId}
+	</if>
+</select>
+</mapper>

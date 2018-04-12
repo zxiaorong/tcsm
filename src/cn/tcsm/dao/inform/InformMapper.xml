@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.inform.InformMapper">
+	<insert id="insert" parameterType="Inform">
+		insert into inform(author,inf_title,inf_detail,insert_user,insert_time)
+		values(#{author},#{infTitle},#{infDetail},#{insertUser},CURRENT_TIMESTAMP)
+	</insert>
+	<update id="deleteById">
+		update inform set is_delete=1 where id=#{id}
+	</update>
+	<update id="updateById" parameterType="Inform">
+		update inform 
+		<set>
+		<if test="author!=null and author!=''">
+			author=#{author},
+		</if>
+		<if test="infTitle!=null and infTitle!=''">
+			inf_title=#{infTitle},
+		</if>
+		<if test="infDetail!=null and infDetail!=''">
+			inf_detail=#{infDetail}
+		</if>
+		</set>
+		where id=#{id} and is_delete=0
+	</update>
+	<select id="getInform" parameterType="Inform" resultType="Inform">
+		select id,author,inf_title 'infTitle',inf_detail 'infDetail',update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime' 
+		from inform 
+		where is_delete=0
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="author!=null and author!=''">
+			and author=#{author}
+		</if>
+		<if test="infTitle!=null and infTitle!=''">
+			and inf_title=#{infTitle}
+		</if>
+		<if test="infDetail!=null and infDetail!=''">
+			and inf_detail=#{infDetail}
+		</if>		
+	</select>
+</mapper>

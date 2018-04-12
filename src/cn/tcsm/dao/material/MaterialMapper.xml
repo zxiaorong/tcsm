@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.material.MaterialMapper">
+	<insert id="insert">
+		insert into material(mat_symbol,mat_name,mat_sprice,grade_id,insert_user,insert_time)
+		values(#{material.matSymbol},#{material.matName},#{material.matSprice},#{material.greadId},#{insertUser},CURRENT_TIMESTAMP)
+	</insert>
+ 	<update id="deleteById">
+		update material set is_delete=1 where id=#{id}
+	</update>
+	<update id="updataById" parameterType="Material">
+		update material
+		 <set>
+		<if test="matSymbol!=null">
+			mat_symbol=#{matSymbol},
+		</if>
+		<if test="matName!=null">
+			mat_name=#{matName},
+		</if>
+		<if test="matSprice!=0.00">
+			mat_sprice=#{matSprice},
+		</if>
+		<if test="gradeId!=null">
+			grade_id=#{gradeId}
+		</if>
+		</set>
+		where id=#{id} and is_delete=0
+	</update>
+	<select id="getList" parameterType="Material" resultType="Material">
+		select id,mat_symbol 'mateSymbol',mat_name 'matName',grade_id 'gradeId',mat_sprice 'matSprice',update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime' 
+		from material
+		where is_delete=0
+		<if test="matSymbol!=null">and mat_symbol=#{matSymbol}</if>
+		<if test="matName!=null">and mat_name=#{matName}</if>
+		<if test="matSprice!=0.00">and mat_sprice=#{matSprice}</if> 
+		<if test="id!=null">and id=#{id}</if> 
+		<if test="gradeId!=null">and grade_id=#{gradeId}</if> 
+	</select>
+</mapper>

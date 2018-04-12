@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.user.UserMapper">
+	<select id="login" parameterType="User" resultType="User">
+		select id,pwd,update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime'
+		from ycuser
+		where is_delete=0
+		<if test="id!=null and id!=''">
+			and id=#{id}
+		</if>
+		<if test="pwd!=null and pwd!=''">
+			and pwd=#{pwd}
+		</if>
+	</select>
+</mapper>

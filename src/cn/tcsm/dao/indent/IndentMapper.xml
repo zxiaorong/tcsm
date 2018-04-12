@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.indent.IndentMapper">
+	<insert id="insert" parameterType="Indent">
+		insert into indent(sup_id,insert_user,insert_time)
+		values(#{supId},#{insertUser},CURRENT_TIMESTAMP)
+	</insert>
+	<update id="deleteById">
+		update indent set is_delete=1 where id=#{id}
+	</update>
+	<update id="updateById" parameterType="Indent">
+		update indent
+		<set>
+			<if test="supId!=null and supId!=''">
+				sup_id=#{supId},
+			</if>
+			update_user=#{updateUser},
+			update_time=#{updateTime}
+		</set>
+		where is_delete=0 and id={id}
+	</update>
+	<select id="getIndent" parameterType="Indent" resultType="Indent">
+		select id,sup_id 'supId',update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime'
+		from indent
+		where is_delete=0
+		<if test="id!=null">
+			and id=#{id}
+		</if>
+		<if test="supId!=null">
+			and sup_id=#{supId}
+		</if>
+	</select>
+</mapper>

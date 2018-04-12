@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0/EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.tcsm.dao.supplier.SupplierMapper">
+	<insert id="insert" parameterType="Supplier">
+		insert into supplier(sup_name,role_id,addr,pwd,phone,cultivatedarea,card_id,insert_user,insert_time)
+		values(#{supName},#{roleId}#{addr},#{pwd},#{phone},#{cultivatedArea},#{cardId},#{insertUser},CURRENT_TIMESTAMP)
+	</insert>
+	<update id="deleteById">
+		update supplier set is_delete=1 where id=#{id}
+	</update>
+	<update id="updataById">
+		update supplier
+		  <set>
+            <if test="Supplier.supName!=null and Supplier.supName!=''">
+                sup_name=#{Supplier.supName},
+            </if>
+            <if test="Supplier.roleId!=null">
+            	 role_id=#{Supplier.roleId},
+            </if>
+            <if test="Supplier.areaId!=null">
+            	 area_id=#{Supplier.areaId},
+            </if>
+            <if test="Supplier.addr!=null and Supplier.addr!=''">
+            	addr=#{Supplier.addr},
+            </if>
+            <if test="Supplier.phone!=null and Supplier.phone!=''">
+            	phone=#{Supplier.phone},
+            </if>
+            <if test="Supplier.pwd!=null and Supplier.pwd!=''">
+            	pwd=#{Supplier.pwd},
+            </if>
+            <if test="Supplier.cultivatedArea!=0.00">
+            	cultivatedarea=#{Supplier.cultivatedArea},
+            </if>
+            <if test="Supplier.cardId!=null and Supplier.cardId!=''">
+            	card_id=#{Supplier.cardId},
+            </if>
+            <if test="Supplier.approve!=null">
+            	approve=1,
+            </if>
+            <if test="Supplier.taskNum!=0.00">
+            	tasknum=#{Supplier.taskNum},
+            </if>
+            <if test="Supplier.compactId!=null">
+            	compact_id=#{Supplier.compactId}
+            </if>
+            <if test="updateUser!=null and updateUser=''">
+			update_user=#{updateUser},
+		</if>
+		<if test="1==1">
+			update_time=CURRENT_TIMESTAMP
+		</if>
+          </set>
+           where id=#{Supplier.id} and is_delete=0
+	</update>
+	<select id="getList" resultType="Supplier">
+		select id id,sup_name 'supName',role_id 'roleId',area_id 'areaId',addr 'addr',pwd 'pwd',phone 'phone',cultivatedarea 'cultivatedArea',card_id 'cardId',approve 'approve',tasknum 'taskNum',compact_id 'compactId',update_user 'updateUser',update_time 'updateTime',insert_user 'insertUser',insert_time 'insertTime' 
+	    from supplier 
+	    where is_delete=0
+ 		<if test="Supplier.supName!=null and Supplier.supName!=''">
+ 			 and sup_name =#{Supplier.supName}
+ 		</if>
+ 		<if test="Supplier.phone!=null and Supplier.supName!=''">
+ 			and phone=#{Supplier.phone}
+ 		</if>
+ 		<if test="Supplier.compactId!=null and Supplier.compactId!=''">
+ 			and compact_id=#{Supplier.compactId}
+ 		</if>
+ 		<if test="Supplier.approve!=null">
+ 			and approve=#{Supplier.approve}
+ 		</if>
+ 		<if test="Supplier.areaId!=null">
+ 			and area_id=#{areaId}
+ 		</if>
+ 		<if test="Supplier.id!=null">
+ 			and id=#{Supplier.id}
+ 		</if>
+	</select>
+</mapper>
